@@ -51,13 +51,7 @@ To set up the environment, follow these steps individually or see below:
     ```sh
     pip install -r requirements.txt
     ```
-
-6. Compile `knn` operator (necessary for the UniDepth dependency):
-    ```sh
-    cd knn
-    ./compile.sh
-    cd ..
-    ```
+    
 
 Combined, this yields the following comand. Building might take a few minutes.
 ```sh
@@ -65,15 +59,17 @@ conda create -n anycam python=3.11 -y && \
 conda activate anycam && \
 pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu124 && \
 conda install -c nvidia cuda-toolkit -y && \
-pip install -r requirements.txt && \
-cd knn && \
-./compile.sh && \
-cd ..
+pip install -r requirements.txt
 ```
+
+## Important Hacks
+
+1. Sometimes, the evo package recognizes valid pose matrices as invalid during eval. You can simply comment out the check in the package.
+2. Currently, the 
 
 ## Note on dependencies
 
-We directly build KNN for UniDepth in here (code is copied), and also use a slightly customized fork of UniMatch.
+We use a slightly customized fork of UniMatch.
 Furthermore, we use the minipytorch3d variant by VGGSfM.
 
 ## Download pretrained checkpoint

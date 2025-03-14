@@ -27,6 +27,8 @@ from anycam.loss.metric import translation_angle
 from anycam.scripts.common import get_checkpoint_path, load_model
 from anycam.loss import make_loss
 
+from minipytorch3d.rotation_conversions import matrix_to_quaternion, quaternion_to_matrix
+
 
 from evo.core import metrics
 from evo.core.trajectory import PosePath3D
@@ -45,6 +47,14 @@ def ndarray_representer(dumper: yaml.Dumper, array: np.ndarray) -> yaml.Node:
     return dumper.represent_list(array.tolist())
 
 yaml.add_representer(np.ndarray, ndarray_representer)
+
+
+def repair_pose(pose):
+    pose = pose.clone().to(torch.float64)
+    rot = pose[..., :3, :3]
+    rot = quaternion_to_matrix(matrix_to_quaternion(rot))
+    pose[..., :3, :3] = rot
+    return pose
 
 
 class PoseAccumulator:
@@ -427,6 +437,8 @@ def run_eval(model, dataloader, with_rerun=False, rerun_log=[], mode="incrementa
             curr_sequence = sequence
         elif curr_sequence != sequence or (stop > 0 and i > stop):
             proc_traj, gt_traj, pred_proj, gt_proj = pose_accumulator.get_trajectory(curr_sequence)
+
+            # proc_traj = [repair_pose(pose) for pose in proc_traj]
 
             if proc_traj is None:
                 print(f"Failure to reconstruct trajectory for sequence {curr_sequence}")

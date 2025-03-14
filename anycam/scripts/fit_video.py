@@ -980,7 +980,9 @@ def ba_refinement(config, initial_trajectory, proj, uncertainties, seq_imgs, seq
             optimized_until = ba_window_end
 
         global_ba_step += 1
-    
+
+    ba_poses_c2w = param_to_pose(ba_param_rot, ba_param_t)
+
     ba_trajectory = ba_poses_c2w.detach()
     ba_proj = make_normalized_proj((ba_param_focal_length * 2).exp(), w/h)[0].cpu().detach()
 
