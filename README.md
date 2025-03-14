@@ -25,7 +25,7 @@ If you find our work useful, please consider citing our paper:
 
 ## Setting Up the Environment
 
-To set up the environment, follow these steps:
+To set up the environment, follow these steps individually or see below:
 
 1. Create a new conda environment with Python 3.11:
     ```sh
@@ -37,10 +37,57 @@ To set up the environment, follow these steps:
     conda activate anycam
     ```
 
-3. Install the required packages from `requirements.txt`:
+3. Install pytorch according to your CUDA version:
+    ```sh
+    pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu124
+    ```
+
+4. Install the corresponding cudatoolkit for compilation:
+    ```sh
+    conda install -c nvidia cuda-toolkit
+    ```
+
+5. Install the required packages from `requirements.txt`:
     ```sh
     pip install -r requirements.txt
     ```
+
+6. Compile `knn` operator (necessary for the UniDepth dependency):
+    ```sh
+    cd knn
+    ./compile.sh
+    cd ..
+    ```
+
+Combined, this yields the following comand. Building might take a few minutes.
+```sh
+conda create -n anycam python=3.11 -y && \
+conda activate anycam && \
+pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu124 && \
+conda install -c nvidia cuda-toolkit -y && \
+pip install -r requirements.txt && \
+cd knn && \
+./compile.sh && \
+cd ..
+```
+
+## Note on dependencies
+
+We directly build KNN for UniDepth in here (code is copied), and also use a slightly customized fork of UniMatch.
+Furthermore, we use the minipytorch3d variant by VGGSfM.
+
+## Download pretrained checkpoint
+
+To download pretrained models, you can use the `download_checkpoints.sh` script. Follow these steps:
+
+1. Open a terminal and navigate to the root directory of the repository.
+
+2. Run the `download_checkpoints.sh` script with the desired model name. For example, to download the final `anycam_seq8` model, use the following command:
+    ```sh
+    ./download_checkpoints.sh anycam_seq8
+    ```
+
+This will download and unpack the pretrained model into the `pretrained_models` directory. You can then use the downloaded model for evaluation or further training.
 
 ## Training
 

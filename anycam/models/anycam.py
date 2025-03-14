@@ -463,9 +463,6 @@ class AnyCam(DepthAnythingForDepthEstimation):
         elif self.focal_parameterization == "linlog-candidates":
             focal_enc = focal_enc * 0.01
 
-            if self.center_and_sharp_focal_logits:
-                focal_enc = self.stabilize_focal_logits(focal_enc)
-
             focal_length_probs = F.softmax(focal_enc, dim=-1)
             focal_candidates_log = torch.linspace(math.log(self.focal_min), math.log(self.focal_max), self.focal_num_candidates, device=focal_length_probs.device).exp()
             focal_candidates_lin = torch.linspace(self.focal_min, self.focal_max, self.focal_num_candidates, device=focal_length_probs.device)
@@ -476,9 +473,6 @@ class AnyCam(DepthAnythingForDepthEstimation):
         
         elif self.focal_parameterization == "candidates":
             focal_enc = focal_enc * 0.01
-
-            if self.center_and_sharp_focal_logits:
-                focal_enc = self.stabilize_focal_logits(focal_enc)
 
             focal_length_probs = F.softmax(focal_enc, dim=-1)
 

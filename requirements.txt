@@ -13,7 +13,8 @@ einops
 scipy
 wandb
 tensorboard
-xformers<=0.0.28.post2
+xformers<=0.0.28.post3
+triton<=3.1
 hydra-core
 pycolmap
 evo
