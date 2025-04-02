@@ -65,12 +65,13 @@ pip install -r requirements.txt
 ## Important Hacks
 
 1. Sometimes, the evo package recognizes valid pose matrices as invalid during eval. You can simply comment out the check in the package.
-2. Currently, the 
+
 
 ## Note on dependencies
 
 We use a slightly customized fork of UniMatch.
 Furthermore, we use the minipytorch3d variant by VGGSfM.
+Currently, the official UniDepth repository does not offer backward-compability. Therefore, I created a custom fork, which should be stable.
 
 ## Download pretrained checkpoint
 
