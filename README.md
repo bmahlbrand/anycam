@@ -62,11 +62,6 @@ conda install -c nvidia cuda-toolkit -y && \
 pip install -r requirements.txt
 ```
 
-## Important Hacks
-
-1. Sometimes, the evo package recognizes valid pose matrices as invalid during eval. You can simply comment out the check in the package.
-
-
 ## Note on dependencies
 
 We use a slightly customized fork of UniMatch.

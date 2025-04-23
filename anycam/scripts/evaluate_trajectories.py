@@ -49,10 +49,22 @@ def ndarray_representer(dumper: yaml.Dumper, array: np.ndarray) -> yaml.Node:
 yaml.add_representer(np.ndarray, ndarray_representer)
 
 
-def repair_pose(pose):
+@torch.no_grad()
+@torch.autocast(device_type="cuda", enabled=False)
+def se3_ensure_numerical_accuracy(pose):
+    """
+    AnyCam internally uses float32 for pose representation. This can lead to numerical problems within 
+    the evo package, which then detects the rotation part as not orthogonal. Therefore, we already convert 
+    the pose to float64 and use SVD to ensure that the rotation part is orthogonal. This does not affect
+    the final metrics, but ensures that evo does not throw an error. Check out this page for the 
+    mathetmatical explanation: https://math.stackexchange.com/questions/2215359/showing-that-matrix-q-uvt-is-the-nearest-orthogonal-matrix-to-a
+    :param pose: SE(3) pose
+    :return: SE(3) pose with a valid rotation matrix
+    """
     pose = pose.clone().to(torch.float64)
     rot = pose[..., :3, :3]
-    rot = quaternion_to_matrix(matrix_to_quaternion(rot))
+    U, S, Vh = torch.linalg.svd(rot)
+    rot = U @ Vh
     pose[..., :3, :3] = rot
     return pose
 
@@ -438,7 +450,7 @@ def run_eval(model, dataloader, with_rerun=False, rerun_log=[], mode="incrementa
         elif curr_sequence != sequence or (stop > 0 and i > stop):
             proc_traj, gt_traj, pred_proj, gt_proj = pose_accumulator.get_trajectory(curr_sequence)
 
-            # proc_traj = [repair_pose(pose) for pose in proc_traj]
+            proc_traj = [se3_ensure_numerical_accuracy(pose) for pose in proc_traj]
 
             if proc_traj is None:
                 print(f"Failure to reconstruct trajectory for sequence {curr_sequence}")
@@ -498,6 +510,8 @@ def run_eval(model, dataloader, with_rerun=False, rerun_log=[], mode="incrementa
 
     if len(pose_accumulator.imgs) > 1:
         proc_traj, gt_traj, pred_proj, gt_proj = pose_accumulator.get_trajectory(curr_sequence)
+
+        proc_traj = [se3_ensure_numerical_accuracy(pose) for pose in proc_traj]
 
         if proc_traj is None:
             print(f"Failure to reconstruct trajectory for sequence {curr_sequence}")
