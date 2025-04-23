@@ -1,5 +1,7 @@
 # AnyCam: Learning to Recover Camera Poses and Intrinsics from Casual Videos
 
+<img src="assets/teaser_v2.gif" alt="Teaser Image" style="width: 100%;">
+
 [**Project Page**](https://fwmb.github.io/anycam) | [**ArXiV**](https://arxiv.org/abs/2503.23282)
 
 This is the official implementation for the CVPR 2025 paper:
@@ -20,7 +22,6 @@ If you find our work useful, please consider citing our paper:
   year={2025}
 }
 ```
-<img src="assets/teaser_v2.gif" alt="Teaser Image" style="width: 100%;">
 
 **<span style="color:red;">WARNING: This is a preliminary code release with no guarantees. The repository is still Work in Progress (WiP) and a lot of cleaning-up and documenting will happen in the future.</span>**
 
