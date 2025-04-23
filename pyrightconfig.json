@@ -6,5 +6,6 @@
         "outputs/",
         "results/",
         "pretrained_models/",
+        "assets/",
     ]
 }

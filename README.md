@@ -20,6 +20,7 @@ If you find our work useful, please consider citing our paper:
   year={2025}
 }
 ```
+<img src="assets/teaser_v2.gif" alt="Teaser Image" style="width: 100%;">
 
 **<span style="color:red;">WARNING: This is a preliminary code release with no guarantees. The repository is still Work in Progress (WiP) and a lot of cleaning-up and documenting will happen in the future.</span>**
 
