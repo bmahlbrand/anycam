@@ -463,7 +463,7 @@ def main(cfg: DictConfig):
         np.save(output_path / "projection.npy", proj)
 
         # Save depths if available
-        if depths:
+        if len(depths.shape) > 0:
             depths_np = np.stack([depth.cpu().numpy() for depth in depths])
             np.save(output_path / "depths.npy", depths_np)
         
