@@ -459,8 +459,9 @@ def main(cfg: DictConfig):
         np.save(output_path / "trajectory.npy", trajectory_np)
         
         # Save projection matrix
-        np.save(output_path / "projection.npy", proj.cpu().numpy())
-        
+        #np.save(output_path / "projection.npy", proj.cpu().numpy())
+        np.save(output_path / "projection.npy", proj)
+
         # Save depths if available
         if depths:
             depths_np = np.stack([depth.cpu().numpy() for depth in depths])
