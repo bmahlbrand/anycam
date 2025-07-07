@@ -1,4 +1,4 @@
---index-url https://download.pytorch.org/whl/cu128
+--extra-index-url https://download.pytorch.org/whl/cu128
 
 # now the PyTorch stack:
 torch==2.7.0
