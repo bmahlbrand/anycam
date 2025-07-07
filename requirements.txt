@@ -30,5 +30,7 @@ scikit-image
 pyceres
 kornia
 timm
-
+xformers<=0.0.28.post3
+triton
+# <=3.1
 projectaria-tools
