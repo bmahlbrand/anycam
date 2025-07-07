@@ -1,3 +1,15 @@
+--index-url https://download.pytorch.org/whl/cu128
+
+# now the PyTorch stack:
+torch==2.7.0
+torchvision==0.22.0
+torchaudio==2.7.0
+
+pillow
+matplotlib
+numpy
+boto3
+imageio[ffmpeg]
 transformers
 opencv-python
 ipython
