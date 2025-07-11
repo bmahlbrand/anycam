@@ -208,7 +208,7 @@ class UniDepthV2Wrapper(nn.Module):
         backbone = conf.get("backbone", "vits14")
         self.scaling = conf.get("scaling", 0.1)
 
-        self.model = torch.hub.load("Brummi/UniDepth:stable", "UniDepth", version=version, backbone=backbone, pretrained=True, trust_repo=True, force_reload=False, source="local")
+        self.model = torch.hub.load("Brummi/UniDepth:stable", "UniDepth", version=version, backbone=backbone, pretrained=True, trust_repo=True, force_reload=False)
 
         self.pixel_encoder = self.model.pixel_encoder
         self.pixel_decoder = self.model.pixel_decoder
@@ -292,7 +292,7 @@ class Metric3DV2Wrapper(nn.Module):
         self.scaling = conf.get("scaling", 0.1)
 
         
-        self.model = torch.hub.load('yvanyin/metric3d', self.variant, pretrain=True,     source="local")
+        self.model = torch.hub.load('yvanyin/metric3d', self.variant, pretrain=True)
 
     def forward(self, rgbs, return_features=False):
         n, c, h, w = rgbs.shape
